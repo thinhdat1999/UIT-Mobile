@@ -10,7 +10,7 @@ class SABT extends StatefulWidget {
     return new _SABTState();
   }
 }
-class _SABTState extends State<SABT> with TickerProviderStateMixin{
+class _SABTState extends State<SABT> with TickerProviderStateMixin {
   ScrollPosition _position;
   bool _visible;
   double _scale = 1;
@@ -18,9 +18,10 @@ class _SABTState extends State<SABT> with TickerProviderStateMixin{
   bool _isMovingDown = false;
   double offsetX = -38;
   double offsetY = 0;
-  Offset showOffset = Offset(-0.08,0);
+  Offset showOffset = Offset(-0.08, 0);
   Offset offsetMoveDown = Offset(-38, 0);
   double prevHeight = 124;
+
   @override
   void dispose() {
     _removeListener();
@@ -52,50 +53,53 @@ class _SABTState extends State<SABT> with TickerProviderStateMixin{
 
 /*    bool visible = settings == null ||
         settings.currentExtent <= settings.minExtent;*/
-      setState(() {
+    setState(() {
+      if (settings.currentExtent <= settings.minExtent && !_isMovingDown) {
+        _isMovingDown = true;
+        offsetX = -0.08;
+      }
+      else if (settings.currentExtent == settings.maxExtent && _isMovingDown) {
+        _isMovingDown = false;
+        offsetX = -38;
+        offsetY = 0;
+      }
+      //prevHeight > cur: moving up, prevHeight < cur: movingDown
+      if (prevHeight > settings.currentExtent) {
+        _isMovingDown = false;
+      }
+      else if (prevHeight < settings.currentExtent) {
+        _isMovingDown = true;
+      }
+      prevHeight = settings.currentExtent;
 
-        if(settings.currentExtent <= settings.minExtent && !_isMovingDown) {
-          _isMovingDown = true;
-          offsetX = -0.08;
-          offsetY = 0;
-        }
-        else if(settings.currentExtent == settings.maxExtent && _isMovingDown) {
-          _isMovingDown = false;
-          offsetX = -38;
-          offsetY = 0;
-        }
-        //prevHeight > cur: moving up, prevHeight < cur: movingDown
-        if(prevHeight > settings.currentExtent)
-          {
-            _isMovingDown = false;
-          }
-        else if(prevHeight < settings.currentExtent) {
-          _isMovingDown = true;
-        }
-        prevHeight = settings.currentExtent;
-
-        if(_isMovingDown && offsetX >= -38 && settings.currentExtent > settings.minExtent) {
-          offsetX -= 0.86;
-          offsetY += 0.1;
-        }
-        else if(!_isMovingDown && offsetX <= -0.08 - 0.86 && settings.currentExtent < settings.maxExtent){
-          offsetX += 0.86;
-          offsetY -= 0.1;
-        }
-      });
+      if (_isMovingDown && offsetX >= -38 &&
+          settings.currentExtent > settings.minExtent) {
+        offsetX -= 0.86;
+        offsetY += 0.1;
+      }
+      else if (!_isMovingDown && offsetX <= -0.08 - 0.86 &&
+          settings.currentExtent < settings.maxExtent) {
+        offsetX += 0.86;
+        offsetY -= 0.1;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_scale);
     return Visibility(
-        child: Container(
-          child: Transform.translate(
-                  child: Transform.scale(
+      child: Container(
+        child: Transform.translate(
+          /*child: Transform.scale(
                       child: widget.child,
                       scale: _scale < 1 ? 1 : _scale),
-                  offset: Offset(offsetX, offsetY),
-          ),
+                  //offset: Offset(offsetX, _scale),
+                  offset: Offset(-_scale, 0),*/
+          child: widget.child,
+          offset: Offset(offsetX, 0),
         ),
+      ),
       visible: true,
     );
   }

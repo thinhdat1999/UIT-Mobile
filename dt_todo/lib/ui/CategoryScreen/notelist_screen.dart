@@ -43,22 +43,37 @@ class _NoteListScreenState extends State<NoteListScreen> {
                     ),*/
                 //),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: SABT(
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          widget.category.icon,
-                          SizedBox(width: 5),
-                          Text(widget.category.name),
-                        ],
+                  //titlePadding: EdgeInsetsDirectional.only(start: 0),
+                  centerTitle: true,
+                  title: MediaQuery.removePadding(context: context, removeBottom: true, child: Stack(
+                    children: [
+                      new Positioned(
+                        //left: MediaQuery.of(context).size.width / 5.2,
+                        left: MediaQuery.of(context).size.width / 5.2,
+                        bottom: 0,
+                        child: Transform.translate(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                widget.category.icon,
+                                SizedBox(width: 5),
+                                Text(widget.category.name),
+                              ],
+                            ),
+                          ),
+                          offset: Offset(0, 1.5),
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
                   ),
                   background: GestureDetector(
-                    onTap: () {print('hi');},
+                    onTap: () {
+                      print('hi');
+                    },
                     child: Container(
                       color: Colors.blue,
                     ),

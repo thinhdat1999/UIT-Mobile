@@ -1,6 +1,8 @@
 import 'package:dt_todo/ui/CategoryScreen/category_screen.dart';
+import 'package:dt_todo/ui/custom/MyFlexibleSpaceBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() => runApp(new MaterialApp(
   title: 'DT To Do',
@@ -42,14 +44,14 @@ class _CustomBoxWidgetStage extends State<CustomBoxWidget> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            /*Padding(
+            Padding(
               padding: EdgeInsets.all(5),
               child: Icon(
                 Icons.format_list_bulleted,
                 color: Colors.red,
                 size: 25,
               ),
-            ),*/
+            ),
             Padding(
               padding: EdgeInsets.all(5),
               child: Checkbox(
@@ -111,3 +113,42 @@ class _NoteBoxState extends State<NoteBox> {
     );
   }
 }
+
+/*
+
+
+void main() => runApp(MaterialApp(home: MyApp()));
+
+ class MyApp extends StatelessWidget {
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+       body: CustomScrollView(
+         slivers: <Widget>[
+           SliverAppBar(
+             pinned: true,
+             floating: false,
+             snap: false,
+            expandedHeight: 100.0,
+             flexibleSpace: MyFlexibleSpaceBar(
+               title: Transform.translate(child: Text('hhalskdfklska'), offset: Offset(-100,0)),
+             ),
+          ),
+           SliverFixedExtentList(
+             itemExtent: 50.0,
+             delegate: SliverChildBuilderDelegate(
+                   (BuildContext context, int index) {
+                 return Container(
+                   alignment: Alignment.center,
+                   color: Colors.lightBlue[100 * (index % 9)],
+                   child: Text('List Item $index'),
+                 );
+               },
+             ),
+           ),
+         ],
+      ),
+    );
+   }
+ }
+*/

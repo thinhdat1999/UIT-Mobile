@@ -88,6 +88,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       bottomNavigationBar: GestureDetector(
         onTap: () {
           print('Add list');
+          print(MediaQuery.of(context).size.width / 5.2);
         },
         child: Container(
           color: Colors.grey[200],
