@@ -2,6 +2,7 @@ import 'package:dt_todo/helper/IconHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dt_todo/helper/IconHelper.dart';
+/*
 class IconPickerWidget extends StatefulWidget {
   @override
   _IconPickerWidgetState createState() => _IconPickerWidgetState();
@@ -33,4 +34,5 @@ class _IconPickerWidgetState extends State<IconPickerWidget> {
 }
 
 
+*/
 

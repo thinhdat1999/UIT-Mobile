@@ -1,17 +1,26 @@
+import 'package:dt_todo/helper/IconHelper.dart';
 import 'package:dt_todo/ui/CategoryScreen/notelist_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:dt_todo/models/CategoryModel.dart';
+import 'package:dt_todo/models/category_model.dart';
 
 class CategoryBox extends StatelessWidget {
   CategoryModel category;
+  //List note của category tương ứng.
+  List note;
   CategoryBox({this.category});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return GestureDetector(
       onTap: () {
+        //ToDo: thêm 3 screen cho 3 smart list.
+       /* switch(category.name) {
+          case "My Day":
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MyDayScreen(category: category)));
+
+        }*/
         Navigator.push(context, MaterialPageRoute(builder: (context) => NoteListScreen(category: category)));
       },
       child: Column(
@@ -38,7 +47,7 @@ class CategoryBox extends StatelessWidget {
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.all(5),
-                    child: category.icon
+                    child: Icon(IconHelper().getIconByName(category.icon), color: category.color),
                 ),
                 SizedBox(width: 18),
                 Text(category.name),
