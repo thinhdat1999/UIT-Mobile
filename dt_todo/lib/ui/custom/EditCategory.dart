@@ -18,14 +18,15 @@ class __DialogState extends State<EditDialog> {
   bool isClickIcon = false;
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
-  Icon _curIcon = null;
+  Choice _curIcon = null;
   bool isEnable = false;
   FocusNode focusTextfield;
-  TextEditingController textController = new TextEditingController();
+  TextEditingController textController;
   @override void initState() {
     // TODO: implement initState
     super.initState();
     focusTextfield = FocusNode();
+    textController = TextEditingController(text: widget.category == null ? null : widget.category.name);
   }
 
   void changeColor(Color color) {
@@ -91,7 +92,7 @@ class __DialogState extends State<EditDialog> {
                             focusNode: focusTextfield,
                             autofocus: true,
                             decoration: InputDecoration(
-                                hintText: widget.category == null ? 'Enter list title' : null,
+                                hintText: 'Enter list title',
                                 border: new UnderlineInputBorder(
                                   borderSide: new BorderSide(
                                     color: Colors.blueAccent,
@@ -99,7 +100,7 @@ class __DialogState extends State<EditDialog> {
                                   )
                                 )
                             ),
-                            initialValue: widget.category == null ? null : widget.category.name,
+                            //initialValue: widget.category == null ? null : widget.category.name,
                             validator: (val) => val.isEmpty ? 'Enter list title' : null,
                             onChanged: (val) {
                               if(val.isNotEmpty) {
@@ -184,7 +185,7 @@ class __DialogState extends State<EditDialog> {
                       child: Text('CANCEL'),
                     ),
                     FlatButton(
-                      onPressed: isEnable ? _addCategory : null,
+                      onPressed: !isEnable ? null : widget.category == null ? _addCategory : _renameCategory,
                       child: widget.category == null ? Text('CREATE LIST') : Text('SAVE'),
 
                     ),
@@ -197,6 +198,11 @@ class __DialogState extends State<EditDialog> {
     );
   }
 
+  void _renameCategory() async {
+    widget.category.name = textController.text;
+    CategoryBloc().updateCategory(widget.category);
+    Navigator.pop(context);
+  }
   void _addCategory() async {
     if(widget.category == null) {
       int index = 0;

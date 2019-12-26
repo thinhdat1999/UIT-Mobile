@@ -40,10 +40,15 @@ class CategoryProvider {
   Future getSmartCategoriesByUsername(String username) async {
     var categories = [];
     final response =
-    await doc.ref.where('username', isEqualTo: username)/*.where('isSmartList', isEqualTo: true)*/.orderBy('index').getDocuments();
+    await doc.ref.where('username', isEqualTo: username).where('isSmartList', isEqualTo: true).orderBy('index').getDocuments();
     response.documents.forEach(
             (doc) => categories.add(CategoryModel.fromMap(doc.data, doc.documentID)));
     return categories;
+  }
+
+  Future getCategoryByID(String id) async {
+    final json = await doc.ref.document(id).get();
+    return CategoryModel.fromMap(json.data, json.documentID);
   }
 
   Future insertCategory(CategoryModel category) async {

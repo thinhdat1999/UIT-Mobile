@@ -19,7 +19,6 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  int _newIndex;
 
 /*  static List categorySmartList;
   static List categoryList;

@@ -13,6 +13,7 @@ class CategoryBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return GestureDetector(
       onTap: () {
         //ToDo: thêm 3 screen cho 3 smart list.

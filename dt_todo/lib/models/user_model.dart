@@ -1,3 +1,5 @@
+import 'package:dt_todo/models/category_model.dart';
+
 class UserModel {
   String uid;
   String username;

@@ -1,3 +1,4 @@
+import 'package:dt_todo/blocs/category_blocs.dart';
 import 'package:dt_todo/blocs/user_blocs.dart';
 import 'package:dt_todo/models/user_model.dart';
 import 'package:dt_todo/ui/CategoryScreen/category_screen.dart';
@@ -161,6 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!userExist) {
       userBloc.insertUser(this.user);
     }
+
     navigateToHomePage();
     return "đăng nhập thành công";
   }

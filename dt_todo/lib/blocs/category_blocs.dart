@@ -9,6 +9,8 @@ class CategoryBloc {
 
   Future fetchCategories(String username) => repository.fetchCategories(username);
 
+  Future getCategoryByID(String id) => repository.getCategoryByID(id);
+
   Stream fetchCategoriesAsStream(String username) => repository.fetchCategoriesAsStream(username);
 
   Future getCategoriesByUsername(String username) => repository.getCategoriesByUsername(username);
