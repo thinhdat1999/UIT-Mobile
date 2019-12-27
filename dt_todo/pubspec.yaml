@@ -36,6 +36,7 @@ dependencies:
   progress_indicators: ^0.1.4
   flutter_colorpicker: ^0.2.6
   circular_check_box: ^1.0.1
+  flutter_login: ^1.0.10+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

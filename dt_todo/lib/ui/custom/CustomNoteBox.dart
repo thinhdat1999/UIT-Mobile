@@ -88,45 +88,13 @@ class _CustomNoteBoxState extends State<CustomNoteBox> {
   }
 
   void _setImportance() async {
-//    final doc = DBHelper('categories');
-//    final response = await doc.ref.where('username', isEqualTo: UserModel().username).where('name', isEqualTo: 'Importance').limit(1).getDocuments();
-//    if (response.documents.isEmpty) return null;
-//    final json = response.documents.elementAt(0);
-//    final importanceCategory = CategoryModel.fromMap(json.data, json.documentID);
-//    setState(() {
-//      widget.note.isImportance = !widget.note.isImportance;
-//      if(widget.note.isImportance) {
-//        //TODO: add to importance
-//        NoteModel importanceNote = widget.note;
-//        importanceNote.category = importanceCategory;
-//        NoteBloc().insertNote(importanceNote);
-//        importanceCategory.numOfNotes++;
-//        print(importanceCategory.id);
-//      }
-//      else {
-//        importanceCategory.numOfNotes--;
-//      }
-//    });
-//
     widget.note.isImportance = !widget.note.isImportance;
     NoteBloc().updateNote(widget.note);
-   /* final doc = DBHelper('categories');
-    final response = await doc.ref.where('username', isEqualTo: UserModel().username).where('name', isEqualTo: 'Importance').limit(1).getDocuments();
-    if (response.documents.isEmpty) return null;
-    final json = response.documents.elementAt(0);
-    final importanceCategory = CategoryModel.fromMap(json.data, json.documentID);
-    NoteBloc().getNumOfImportanceNotes(UserModel().username).then((value) {
-      importanceCategory.numOfNotes = value;
-      CategoryBloc().updateCategory(importanceCategory);
-    });*/
   }
 
   void _setDone(bool value) {
     widget.note.isDone = value;
     NoteBloc().updateNote(widget.note);
-   /* setState(() {
-      widget.note.isDone = value;
-    });*/
   }
 
   void _goToDetail() {

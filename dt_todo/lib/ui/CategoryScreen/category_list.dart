@@ -12,12 +12,15 @@ class ListCategories extends StatelessWidget {
     return ListView.builder(
       itemCount: listCategories.length,
       itemBuilder: (context, index) {
-        return Column(
-          children: <Widget>[
-            CategoryBox(category: listCategories[index]),
-            if(index == 2)
-              Divider(indent: 15, height: 15, endIndent: 5, thickness: 1.5),
-          ],
+        return Container(
+          color: Colors.grey[200],
+          child: Column(
+            children: <Widget>[
+              CategoryBox(category: listCategories[index]),
+              if(listCategories.length > 3 && index == 2)
+                  Divider(indent: 15, height: 15, endIndent: 5, thickness: 1.5),
+            ],
+          ),
         );
       },
     );

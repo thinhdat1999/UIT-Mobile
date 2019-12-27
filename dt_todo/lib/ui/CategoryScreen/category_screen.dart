@@ -6,6 +6,8 @@ import 'package:dt_todo/provider/category_provider.dart';
 import 'package:dt_todo/ui/CategoryScreen/category_list.dart';
 import 'package:dt_todo/ui/custom/CategoryBox.dart';
 import 'package:dt_todo/ui/custom/EditCategory.dart';
+import 'package:dt_todo/ui/loginScreen/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:async/async.dart';
@@ -88,7 +90,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               CircleAvatar(
-                backgroundImage: NetworkImage(UserModel().avatar),
                 //backgroundColor: Colors.white,
                 maxRadius: 18,
               ),
@@ -101,9 +102,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ],
               ),
               Spacer(),
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: _printHello,
+              FlatButton.icon(
+                icon: Icon(Icons.person),
+                label: Text('Log out'),
+                onPressed: _signOut,
               )
             ],
           ),
@@ -128,7 +130,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       listCategories = snapshot.data.documents.
                       map((doc) => CategoryModel.fromMap(doc.data, doc.documentID)).toList();
 
-                      return ListCategories(listCategories: listCategories);
+                      return Container(
+                          color: Colors.grey[200],
+                          child: ListCategories(listCategories: listCategories));
                     }
                 }
               }
@@ -281,7 +285,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   */
 
-  void _printHello() {
-    print('hi');
+  void _signOut() async {
+    final _auth = FirebaseAuth.instance;
+    try{
+      await _auth.signOut();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+    }catch(e) {
+      print(e);
+      return null;
+    }
   }
 }

@@ -7,17 +7,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 
 
-class LoginScreen extends StatefulWidget {
+/*
+class WelcomeScreen extends StatefulWidget {
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<WelcomeScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<WelcomeScreen> {
   final googleSignIn = new GoogleSignIn();
   final analytics = new FirebaseAnalytics();
   final reference = FirebaseDatabase.instance.reference().child('messages');
@@ -28,105 +31,34 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      body: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        color: Color.fromRGBO(77, 213, 153, 1),
-        child: Stack(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.bottomRight,
-              widthFactor: 0.6,
-              heightFactor: 0.6,
-              child: Material(
-                borderRadius: BorderRadius.all(Radius.circular(200)),
-                color: Color.fromRGBO(255, 255, 255, 0.4),
-                child: Container(
-                  width: 400,
-                  height: 400,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              widthFactor: 0.5,
-              heightFactor: 0.6,
-              child: Material(
-                borderRadius: BorderRadius.all(Radius.circular(200)),
-                color: Color.fromRGBO(255, 255, 255, 0.4),
-                child: Container(
-                  width: 400,
-                  height: 400,
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                width: 400,
-                height: 800,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Material(
-                        elevation: 20.0,
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'images/coins.png', width: 80, height: 80,),
-                        )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: SizedBox(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 2 / 3,
-                              child: GoogleSignInButton(
-                                onPressed: signInWithGoogle,
-                              )
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: SizedBox(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 2 / 3,
-                              child: FlatButton(
-                                child: Text('Sign out'),
-                                onPressed: signOutGoogle,
-                              )
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
+    return MaterialApp(
+      title: 'Login Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        accentColor: Colors.blue,
+        cursorColor: Colors.orange,
+        textTheme: TextTheme(
+          display2: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 45.0,
+            color: Colors.white,
+          ),
+          button: TextStyle(
+            fontFamily: 'OpenSans',
+          ),
+          subhead: TextStyle(fontFamily: 'NotoSans'),
+          body1: TextStyle(fontFamily: 'NotoSans'),
         ),
       ),
+      home: LoginScreen(),
     );
   }
 
   void navigateToHomePage() {
-    /*Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => CategoryScreen(), fullscreenDialog: true));*/
+    */
+/*Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) => CategoryScreen(), fullscreenDialog: true));*//*
+
     Navigator.pushReplacementNamed(context, '/category_screen');
   }
 
@@ -156,7 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     this.user.uid = user.uid;
     this.user.username = user.email;
-    this.user.avatar = user.photoUrl;
 
     bool userExist = await checkUserExist(this.user);
     if (!userExist) {
@@ -170,5 +101,104 @@ class _LoginScreenState extends State<LoginScreen> {
   void signOutGoogle() async {
     await googleSignIn.signOut();
     print("User Sign Out");
+  }
+}
+
+*/
+
+
+class LoginScreen extends StatelessWidget {
+  final user = UserModel();
+  final userBloc = UserBloc();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // ignore: missing_return
+  Future<String> _authUser(LoginData data) async {
+    bool userExist = await checkUser(data);
+    if(!userExist){
+      return "Email not exists !";
+    }
+    try{
+      // ignore: unnecessary_statements
+      await _auth.signInWithEmailAndPassword(email: data.name, password: data.password);
+      user.username = data.name.trim();
+
+    } on Exception{
+      return "Username or password incorrect";
+    }
+  }
+
+  checkLogin(LoginData data) async{
+    final user = await userBloc.getUserByUsername(data.name);
+    return user!=null;
+  }
+
+  Future<bool> checkUser(LoginData data) async {
+    final user = await userBloc.getUserByUsername(data.name);
+    return user != null ;
+  }
+
+
+
+  // ignore: missing_return
+  Future<String> authSignUp(LoginData data) async {
+    user.username = data.name;
+
+    bool userExist = await checkUser(data);
+    if (userExist) {
+      return "Tên người dùng đã tồn tại!";
+    } else {
+      userBloc.insertUser(user);
+      try {
+        FirebaseUser fbUser = (await _auth.createUserWithEmailAndPassword(
+            email: data.name, password: data.password))
+            .user;
+        await fbUser.sendEmailVerification();
+      } on PlatformException {
+        return "Lỗi đăng nhập!";
+      }
+    }
+  }
+
+  Future<String> _recoverPassword(String name) async {
+    user.username = name;
+    await userBloc.getUserByUsername(name);
+    await _auth.sendPasswordResetEmail(email: name);
+    return Future.delayed(Duration(milliseconds: 500)).then((_) {
+      if (name != user.username) {
+        return 'Tên đăng nhập không tồn tại';
+      }
+      return null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlutterLogin(
+      title: 'To Do Note',
+      logo: 'assets/images/ecorp.png',
+      onLogin: _authUser,
+      onSignup: authSignUp,
+      onSubmitAnimationCompleted: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CategoryScreen(),
+        ));
+      },
+      onRecoverPassword: _recoverPassword,
+      messages: LoginMessages(
+        usernameHint: 'Username',
+        passwordHint: 'Pass',
+        confirmPasswordHint: 'Confirm',
+        loginButton: 'LOG IN',
+        signupButton: 'REGISTER',
+        forgotPasswordButton: 'Forgot password huh?',
+        recoverPasswordButton: 'HELP ME',
+        goBackButton: 'GO BACK',
+        confirmPasswordError: 'Not match!',
+        recoverPasswordDescription:
+        'Please check your email to recover password',
+        recoverPasswordSuccess: 'Password rescued successfully',
+      ),
+    );
   }
 }

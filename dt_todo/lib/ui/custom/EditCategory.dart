@@ -46,6 +46,7 @@ class __DialogState extends State<EditDialog> {
   }
 
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -84,7 +85,7 @@ class __DialogState extends State<EditDialog> {
                         },
                       ),
                       new Container(
-                          width: 240,
+                          width: MediaQuery.of(context).size.width/2,
                           child: TextFormField(
                             controller: textController,
                             onTap: () {
@@ -210,8 +211,9 @@ class __DialogState extends State<EditDialog> {
     widget.category.name = textController.text;
     widget.category.icon = _curIcon.title;
     widget.category.color = _curIcon.color;
-    CategoryBloc().updateCategory(widget.category);
+    await CategoryBloc().updateCategory(widget.category);
     Navigator.pop(context);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NoteListScreen(category: widget.category)));
   }
   void _addCategory() async {
     if(widget.category == null) {
@@ -219,7 +221,7 @@ class __DialogState extends State<EditDialog> {
       await CategoryBloc().getLastIndex(UserModel().username).then((value) {
         index = value + 1 ;
       });
-      CategoryBloc().insertCategory(new CategoryModel(icon: _curIcon.title, color: _curIcon.color, name: textController.text, numOfNotes: 0, isSmartList: false, index: index));
+      CategoryBloc().insertCategory(new CategoryModel(icon: _curIcon == null ? 'new_list' : _curIcon.title, color: _curIcon == null ? Colors.black : _curIcon.color, name: textController.text, numOfNotes: 0, isSmartList: false, index: index));
 
       final doc = DBHelper('categories');
       final response = await doc.ref.where('username', isEqualTo: UserModel().username).where('index', isEqualTo: index).limit(1).getDocuments();

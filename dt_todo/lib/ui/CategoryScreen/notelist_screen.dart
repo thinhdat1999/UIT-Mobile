@@ -115,7 +115,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                     PopupMenuItem(value: 'Delete', child: Text('Delete List')),
                   ],
                 ),
-              ]: null,
+              ] : null,
             ),
             widget.category == null ? SliverToBoxAdapter() :
             SliverToBoxAdapter(
@@ -212,9 +212,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 return EditDialog(category: widget.category);
               }
           );
-          setState(() {
-
-          });
         break;
       default:
         break;
@@ -230,9 +227,9 @@ class _NoteListScreenState extends State<NoteListScreen> {
           return AddNoteScreen(category: widget.category);
         }
     );
-    await NoteBloc().getNumOfNotes(widget.category.id).then((value) {
+  /*  await NoteBloc().getNumOfNotes(widget.category.id).then((value) {
       widget.category.numOfNotes = value;
     });
-    if(widget.category.numOfNotes == 1) setState(() {});
+    if(widget.category.numOfNotes == 1) setState(() {});*/
   }
 }

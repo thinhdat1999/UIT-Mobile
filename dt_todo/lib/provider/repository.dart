@@ -24,7 +24,6 @@ class Repository {
 
     SmartList.categorySmartList.forEach((category) => {
       categoryProvider.insertCategory(category),
-      print(category.toString())
     });
   }
 

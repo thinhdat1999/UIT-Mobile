@@ -17,11 +17,6 @@ class CategoryBox extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         //ToDo: thêm 3 screen cho 3 smart list.
-       /* switch(category.name) {
-          case "My Day":
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MyDayScreen(category: category)));
-
-        }*/
         Navigator.push(context, MaterialPageRoute(builder: (context) => NoteListScreen(category: category)));
       },
       child: Column(
@@ -30,20 +25,6 @@ class CategoryBox extends StatelessWidget {
             color: Colors.grey[200],
             padding: EdgeInsets.all(8.0),
             child: Row(
-              // Column is also a layout widget. It takes a list of children and
-              // arranges them vertically. By default, it sizes itself to fit its
-              // children horizontally, and tries to be as tall as its parent.
-              //
-              // Invoke "debug painting" (press "p" in the console, choose the
-              // "Toggle Debug Paint" action from the Flutter Inspector in Android
-              // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-              // to see the wireframe for each widget.
-              //
-              // Column has various properties to control how it sizes itself and
-              // how it positions its children. Here we use mainAxisAlignment to
-              // center the children vertically; the main axis here is the vertical
-              // axis because Columns are vertical (the cross axis would be
-              // horizontal).
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
