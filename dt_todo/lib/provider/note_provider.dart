@@ -23,9 +23,23 @@ class NoteProvider {
     return response.documents.length;
   }
 
+  Future getNumOfMyDayNotes(String username) async {
+    final response = await doc.ref.where('username', isEqualTo: username).where('isMyDay', isEqualTo: true).where('isDone', isEqualTo: false).orderBy('createDate', descending: true).getDocuments();
+    return response.documents.length;
+  }
+
   Future getNumOfImportanceNotes(String username) async {
     final response = await doc.ref.where('username', isEqualTo: username).where('isImportance', isEqualTo: true).where('isDone', isEqualTo: false).orderBy('createDate', descending: true).getDocuments();
     return response.documents.length;
+  }
+
+  Future getNumOfPlannedNotes(String username) async {
+    final response = await doc.ref.where('username', isEqualTo: username).orderBy('dueDate').orderBy('createDate', descending: true).where('isDone', isEqualTo: false).getDocuments();
+    return response.documents.length;
+  }
+
+  Stream<QuerySnapshot> fetchMyDayNotesAsStream(String username) {
+    return doc.ref.where('username', isEqualTo: username).where('isMyDay', isEqualTo: true).orderBy('createDate', descending: true).snapshots();
   }
 
   Stream<QuerySnapshot> fetchNotesAsStream(String categoryID) {

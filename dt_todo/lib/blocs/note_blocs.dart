@@ -14,6 +14,8 @@ class NoteBloc {
 
   Stream fetchPlannedNotesAsStream(String username) => repository.fetchPlannedNotesAsStream(username);
 
+  Stream fetchMyDayNotesAsStream(String username) => repository.fetchMyDayNotesAsStream(username);
+
   Future getNumOfNotes(String categoryID) => repository.getNumOfNotes(categoryID);
 
   Future getNumOfImportanceNotes(String username) => repository.getNumOfImportanceNotes(username);

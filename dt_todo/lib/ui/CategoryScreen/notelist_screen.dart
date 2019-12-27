@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dt_todo/blocs/category_blocs.dart';
 import 'package:dt_todo/blocs/note_blocs.dart';
 import 'package:dt_todo/helper/IconHelper.dart';
@@ -33,7 +34,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
       noteList = await NoteBloc().getNotesByCategory(widget.category.id);
     }
   }*/
-
   @override
   void initState() {
     // TODO: implement initState
@@ -117,10 +117,10 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 ),
               ]: null,
             ),
-            widget.category == null || widget.category.numOfNotes == 0 ? SliverToBoxAdapter() :
+            widget.category == null ? SliverToBoxAdapter() :
             SliverToBoxAdapter(
               child: StreamBuilder(
-                  stream: widget.category.isSmartList ? widget.category.index == 1
+                  stream:  widget.category.isSmartList ? widget.category.index == 0 ? NoteBloc().fetchMyDayNotesAsStream(UserModel().username) : widget.category.index == 1
                       ? NoteBloc().fetchImportanceNotesAsStream(UserModel().username)
                       : NoteBloc().fetchPlannedNotesAsStream(UserModel().username)
                       : NoteBloc().fetchNotesAsStream(widget.category.id),
@@ -173,7 +173,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
     );
   }
 
-  void choiceAction(String value) {
+  void choiceAction(String value) async{
     switch(value) {
       case 'Delete':
         showDialog(
@@ -205,13 +205,16 @@ class _NoteListScreenState extends State<NoteListScreen> {
         );
         break;
       case 'Rename List':
-          showDialog(
+          await showDialog(
               barrierDismissible: false,
               context: context,
               builder: (_) {
                 return EditDialog(category: widget.category);
               }
           );
+          setState(() {
+
+          });
         break;
       default:
         break;

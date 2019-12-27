@@ -62,7 +62,7 @@ class _DetailsNoteScreen extends State<DetailsNoteScreen> {
                         }
                     ),
                     Container(
-                        width: 330,
+                        width: MediaQuery.of(context).size.width/1.2,
                         child: TextFormField(
                           decoration: new InputDecoration(
                             hintText: 'Rename title',
@@ -97,17 +97,15 @@ class _DetailsNoteScreen extends State<DetailsNoteScreen> {
               Container(
                   alignment: Alignment.centerLeft,
                   child: FlatButton.icon(
-                      onPressed: ()=>{},
-                      icon: Icon(Icons.wb_sunny),
-                      label: Text('Add to my day')
-                  )
-              ),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  child: FlatButton.icon(
-                      onPressed: ()=>{},
+                      onPressed: ()=>{
+                        widget.note.isMyDay = !widget.note.isMyDay,
+                        NoteBloc().updateNote(widget.note),
+                        setState(() {})
+                      },
                       icon: Icon(Icons.wb_sunny,color: Colors.yellow,),
-                      label: Text('Add to my day')
+                      label: widget.note.isMyDay ? Text('Added to My Day', style: TextStyle(
+                        color: Colors.blueAccent,
+                      )) : Text('Add to my day')
                   )),
               Row(
                 children: <Widget>[

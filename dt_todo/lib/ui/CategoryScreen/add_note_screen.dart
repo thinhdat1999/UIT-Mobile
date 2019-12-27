@@ -78,6 +78,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           description: null,
                           isDone: false,
                           isImportance: widget.category.index == 1 ? true : false,
+                          isMyDay: false,
                           category: widget.category,
                           createDate: DateTime.now(),
                           dueDate: dateTime);

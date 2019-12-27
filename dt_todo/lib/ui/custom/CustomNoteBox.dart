@@ -109,8 +109,8 @@ class _CustomNoteBoxState extends State<CustomNoteBox> {
 //    });
 //
     widget.note.isImportance = !widget.note.isImportance;
-    await NoteBloc().updateNote(widget.note);
-    final doc = DBHelper('categories');
+    NoteBloc().updateNote(widget.note);
+   /* final doc = DBHelper('categories');
     final response = await doc.ref.where('username', isEqualTo: UserModel().username).where('name', isEqualTo: 'Importance').limit(1).getDocuments();
     if (response.documents.isEmpty) return null;
     final json = response.documents.elementAt(0);
@@ -118,7 +118,7 @@ class _CustomNoteBoxState extends State<CustomNoteBox> {
     NoteBloc().getNumOfImportanceNotes(UserModel().username).then((value) {
       importanceCategory.numOfNotes = value;
       CategoryBloc().updateCategory(importanceCategory);
-    });
+    });*/
   }
 
   void _setDone(bool value) {

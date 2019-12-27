@@ -9,6 +9,12 @@ class CategoryProvider {
   final doc = DBHelper('categories');
 
   List<CategoryModel> listCategories;
+  List smartLists;
+  CategoryProvider() {
+    getSmartCategoriesByUsername(UserModel().username).then((value) {
+      smartLists = value;
+    });
+  }
 
   Future getLastIndex(String username) async {
     final response = await doc.ref.where('username', isEqualTo: username).orderBy('index', descending: true).limit(1).getDocuments();
@@ -59,4 +65,5 @@ class CategoryProvider {
 
   Future updateCategory(CategoryModel category) async =>
       await doc.ref.document(category.id).updateData(category.toJson());
+
 }

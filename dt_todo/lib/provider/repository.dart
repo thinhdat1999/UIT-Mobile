@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dt_todo/helper/DBHelper.dart';
 import 'package:dt_todo/helper/SmartList.dart';
 import 'package:dt_todo/models/category_model.dart';
 import 'package:dt_todo/models/note_model.dart';
@@ -12,6 +13,7 @@ class Repository {
   final userProvider = UserProvider();
   final categoryProvider = CategoryProvider();
   final noteProvider = NoteProvider();
+
 
   Future getUserByUsername(String username) => userProvider.getUserByUsername(username);
 
@@ -60,6 +62,8 @@ class Repository {
 
   Stream fetchImportanceNotesAsStream(String username) => noteProvider.fetchImportanceNotesAsStream(username);
 
+  Stream fetchMyDayNotesAsStream(String username) => noteProvider.fetchMyDayNotesAsStream(username);
+
   Stream fetchPlannedNotesAsStream(String username) => noteProvider.fetchPlannedNotesAsStream(username);
 
   Future getNumOfNotes(String categoryID) => noteProvider.getNumOfNotes(categoryID);
@@ -68,23 +72,41 @@ class Repository {
 
   Future insertNote(NoteModel note) async {
     await noteProvider.insertNote(note);
-    updateNumOfNotes(note.category);
+    updateNumOfNotes(note);
   }
 
   Future deleteNote(NoteModel note) async {
     await noteProvider.deleteNote(note.id);
-    updateNumOfNotes(note.category);
+    updateNumOfNotes(note);
   }
 
   Future updateNote(NoteModel note) async {
     await noteProvider.updateNote(note);
-    updateNumOfNotes(note.category);
+    updateNumOfNotes(note);
   }
 
-  Future updateNumOfNotes(CategoryModel category) async {
-    await noteProvider.getNumOfNotes(category.id).then((value) {
-      category.numOfNotes = value;
+  Future updateNumOfNotes(NoteModel note) async {
+    if(note.isMyDay) noteProvider.getNumOfMyDayNotes(UserModel().username).then((value) {
+      categoryProvider.smartLists.elementAt(0).numOfNotes = value;
+      categoryProvider.updateCategory(categoryProvider.smartLists.elementAt(0));
     });
-    categoryProvider.updateCategory(category);
+
+    if(note.isImportance) noteProvider.getNumOfImportanceNotes(UserModel().username).then((value) {
+      categoryProvider.smartLists.elementAt(1).numOfNotes = value;
+      categoryProvider.updateCategory(categoryProvider.smartLists.elementAt(1));
+    });
+
+
+    if(note.dueDate != null) noteProvider.getNumOfPlannedNotes(UserModel().username).then((value) {
+      categoryProvider.smartLists.elementAt(2).numOfNotes = value;
+      categoryProvider.updateCategory(categoryProvider.smartLists.elementAt(2));
+    });
+
+    noteProvider.getNumOfNotes(note.category.id).then((value) {
+      note.category.numOfNotes = value;
+      categoryProvider.updateCategory(note.category);
+    });
+
   }
+
 }

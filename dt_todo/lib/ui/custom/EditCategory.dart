@@ -1,5 +1,6 @@
 import 'package:dt_todo/blocs/category_blocs.dart';
 import 'package:dt_todo/helper/DBHelper.dart';
+import 'package:dt_todo/helper/IconHelper.dart';
 import 'package:dt_todo/models/category_model.dart';
 import 'package:dt_todo/models/user_model.dart';
 import 'package:dt_todo/ui/CategoryScreen/notelist_screen.dart';
@@ -18,8 +19,8 @@ class __DialogState extends State<EditDialog> {
   bool isClickIcon = false;
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
-  Choice _curIcon = null;
-  bool isEnable = false;
+  Choice _curIcon;
+  bool isEnable;
   FocusNode focusTextfield;
   TextEditingController textController;
   @override void initState() {
@@ -27,6 +28,8 @@ class __DialogState extends State<EditDialog> {
     super.initState();
     focusTextfield = FocusNode();
     textController = TextEditingController(text: widget.category == null ? null : widget.category.name);
+    isEnable = textController.text.isEmpty ? false : true;
+    _curIcon = widget.category == null ? null : Choice(title: widget.category.icon, icon: IconHelper().getIconByName(widget.category.icon), color: widget.category.color);
   }
 
   void changeColor(Color color) {
@@ -73,7 +76,7 @@ class __DialogState extends State<EditDialog> {
                     children: <Widget>[
                       IconButton(
                         color: Colors.grey,
-                        icon: Icon(Icons.add_a_photo),
+                        icon: _curIcon == null ? Icon(Icons.add_a_photo) : Icon(_curIcon.icon, color: _curIcon.color),
                         onPressed: () async {
                           focusTextfield.unfocus();
                           Future.delayed(Duration(milliseconds: 200), () => iconPicker());
@@ -127,14 +130,19 @@ class __DialogState extends State<EditDialog> {
                     child: GridView.count(
                         crossAxisCount: 6,
                         children: List.generate(30, (index){
-                          return Center(
+                          return InkResponse(
                             child: ChoiceCard(choice: choices[index],),
+                            onTap: () {
+                              setState(() {
+                                _curIcon = choices[index];
+                              });
+                            },
                           );
                         })
                     )
                 ):Container(),
                 SizedBox(height: 5),
-                Ink(
+                /*Ink(
                   decoration: const ShapeDecoration(
                     shape: CircleBorder(),
                     color: Colors.grey,
@@ -167,7 +175,7 @@ class __DialogState extends State<EditDialog> {
                       );
                     },
                   ),
-                ),
+                ),*/
                 SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -200,6 +208,8 @@ class __DialogState extends State<EditDialog> {
 
   void _renameCategory() async {
     widget.category.name = textController.text;
+    widget.category.icon = _curIcon.title;
+    widget.category.color = _curIcon.color;
     CategoryBloc().updateCategory(widget.category);
     Navigator.pop(context);
   }
@@ -209,7 +219,7 @@ class __DialogState extends State<EditDialog> {
       await CategoryBloc().getLastIndex(UserModel().username).then((value) {
         index = value + 1 ;
       });
-      CategoryBloc().insertCategory(new CategoryModel(icon: 'new_list', color: Colors.blue ,name: textController.text, numOfNotes: 0, isSmartList: false, index: index));
+      CategoryBloc().insertCategory(new CategoryModel(icon: _curIcon.title, color: _curIcon.color, name: textController.text, numOfNotes: 0, isSmartList: false, index: index));
 
       final doc = DBHelper('categories');
       final response = await doc.ref.where('username', isEqualTo: UserModel().username).where('index', isEqualTo: index).limit(1).getDocuments();
@@ -224,46 +234,47 @@ class __DialogState extends State<EditDialog> {
 }
 
 class Choice {
-  const Choice({this.title, this.icon});
+  const Choice({this.title, this.icon, this.color});
 
   final String title;
   final IconData icon;
+  final Color color;
 }
 
 const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Car', icon: Icons.directions_car),
-  const Choice(title: 'Bicycle', icon: Icons.directions_bike),
-  const Choice(title: 'Boat', icon: Icons.directions_boat),
-  const Choice(title: 'Bus', icon: Icons.directions_bus),
-  const Choice(title: 'Train', icon: Icons.directions_railway),
-  const Choice(title: 'Walk', icon: Icons.directions_walk),
-  const Choice(title: 'Work', icon: Icons.work),
-  const Choice(title: 'Grocery', icon: Icons.local_grocery_store),
-  const Choice(title: 'Photo', icon: Icons.add_photo_alternate),
-  const Choice(title: 'Book', icon: Icons.book),
-  const Choice(title: 'Plane', icon: Icons.airplanemode_active),
-  const Choice(title: 'Baby', icon: Icons.child_care),
-  const Choice(title: 'Birthday', icon: Icons.cake),
-  const Choice(title: 'Alarm', icon: Icons.alarm),
-  const Choice(title: 'Bank', icon: Icons.account_balance),
-  const Choice(title: 'Sun', icon: Icons.brightness_high),
-  const Choice(title: 'Happy', icon: Icons.mood),
-  const Choice(title: 'Moon', icon: Icons.wb_sunny),
-  const Choice(title: 'Weather', icon: Icons.cloud),
-  const Choice(title: 'Mail', icon: Icons.mail),
-  const Choice(title: 'Event', icon: Icons.event_available),
-  const Choice(title: 'Heart', icon: Icons.favorite),
-  const Choice(title: 'Snow', icon: Icons.ac_unit),
-  const Choice(title: 'Cancel', icon: Icons.cancel),
-  const Choice(title: 'Check', icon: Icons.check),
-  const Choice(title: 'Announcement', icon: Icons.announcement),
-  const Choice(title: 'Money', icon: Icons.attach_money),
-  const Choice(title: 'Message', icon: Icons.chat),
-  const Choice(title: 'Travel', icon: Icons.edit_location),
-  const Choice(title: 'FastFood', icon: Icons.fastfood),
-  const Choice(title: 'Coffee', icon: Icons.free_breakfast),
-  const Choice(title: 'Bus', icon: Icons.music_note),
-  const Choice(title: 'Dining', icon: Icons.local_dining),
+  const Choice(title: 'Car', icon: Icons.directions_car, color: Colors.deepPurple),
+  const Choice(title: 'Bicycle', icon: Icons.directions_bike, color: Colors.blueAccent),
+  const Choice(title: 'Boat', icon: Icons.directions_boat,color: Colors.lightBlueAccent),
+  const Choice(title: 'Bus', icon: Icons.directions_bus,color: Colors.grey),
+  const Choice(title: 'Train', icon: Icons.directions_railway,color: Colors.brown),
+  const Choice(title: 'Walk', icon: Icons.directions_walk,color: Colors.deepOrangeAccent),
+  const Choice(title: 'Work', icon: Icons.work,color: Colors.green),
+  const Choice(title: 'Grocery', icon: Icons.local_grocery_store,color: Colors.pinkAccent),
+  const Choice(title: 'Photo', icon: Icons.add_photo_alternate,color: Colors.blue),
+  const Choice(title: 'Book', icon: Icons.book,color: Colors.brown),
+  const Choice(title: 'Plane', icon: Icons.airplanemode_active,color: Colors.indigo),
+  const Choice(title: 'Baby', icon: Icons.child_care,color: Colors.pinkAccent),
+  const Choice(title: 'Birthday', icon: Icons.cake,color: Colors.amberAccent),
+  const Choice(title: 'Alarm', icon: Icons.alarm,color: Colors.red),
+  const Choice(title: 'Bank', icon: Icons.account_balance,color: Colors.indigo),
+  const Choice(title: 'Sun', icon: Icons.brightness_high,color: Colors.amber),
+  const Choice(title: 'Happy', icon: Icons.mood,color: Colors.amberAccent),
+  const Choice(title: 'Moon', icon: Icons.brightness_2,color: Colors.amber),
+  const Choice(title: 'Weather', icon: Icons.cloud, color: Colors.lightBlueAccent),
+  const Choice(title: 'Mail', icon: Icons.mail, color: Colors.orange),
+  const Choice(title: 'Event', icon: Icons.event_available, color: Colors.green),
+  const Choice(title: 'Heart', icon: Icons.favorite, color: Colors.red),
+  const Choice(title: 'Snow', icon: Icons.ac_unit, color: Colors.lightBlueAccent),
+  const Choice(title: 'Cancel', icon: Icons.cancel, color: Colors.red),
+  const Choice(title: 'Check', icon: Icons.check, color: Colors.green),
+  const Choice(title: 'Announcement', icon: Icons.announcement, color: Colors.yellow),
+  const Choice(title: 'Money', icon: Icons.attach_money, color: Colors.yellowAccent),
+  const Choice(title: 'Message', icon: Icons.chat, color: Colors.amber),
+  const Choice(title: 'Travel', icon: Icons.edit_location, color: Colors.red),
+  const Choice(title: 'FastFood', icon: Icons.fastfood, color: Colors.amber),
+  const Choice(title: 'Coffee', icon: Icons.free_breakfast, color: Colors.brown),
+  const Choice(title: 'Bus', icon: Icons.music_note, color: Colors.purpleAccent),
+  const Choice(title: 'Dining', icon: Icons.local_dining, color: Colors.red),
 ];
 
 class ChoiceCard extends StatelessWidget {
@@ -280,16 +291,13 @@ class ChoiceCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: new GestureDetector(
-                    onTap: () => {
-                      print(choice.title.toString())
-                    },
-                    child: Icon(
+                child:
+                     Icon(
                       choice.icon,
-                      color: textStyle.color,
+                      color: choice.color,
                     )
                 ),
-              )
+
             ]
         ),
         )

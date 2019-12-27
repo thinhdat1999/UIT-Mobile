@@ -169,7 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
-
     print("User Sign Out");
   }
 }
