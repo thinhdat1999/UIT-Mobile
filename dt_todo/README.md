@@ -1,7 +1,10 @@
 # dt_todo
 
-A mobile project in university
-
+Đồ án báo cáo môn học nhập môn ứng dụng di động
+Đề tài : Quản lý ghi chú
+Nhóm : DT - SE346
+Thành viên :  17521041 - Vũ Minh Thắng
+              17520343 - Vương Thịnh Đạt
 ## Getting Started
 
 This project is a starting point for a Flutter application.
