@@ -1,19 +1,23 @@
-# dt_todo
+# Giới thiệu
 
 Đồ án báo cáo môn học nhập môn ứng dụng di động
+
 Đề tài : Quản lý ghi chú
+
 Nhóm : DT - SE346
+
 Thành viên :  17521041 - Vũ Minh Thắng
               17520343 - Vương Thịnh Đạt
-## Getting Started
+              
+## ToDoNote
 
-This project is a starting point for a Flutter application.
+Việc ghi lại tất cả các công việc ấy vào một tờ giấy để mang theo thực sự gây bất tiện và dễ làm mất chúng. Với ứng dụng ghi chú, ta có thể lưu lại tất cả các ghi chú ấy chỉ bằng việc sử dụng ứng dụng trên điện thoại di động, vừa tiện lợi vừa dễ mang theo vì di động luôn mang bên mình.
+Nhận thấy nhu cầu đó nhóm DT đã chọn thực hiện đề tài “Phần mềm quản lý ghi chú”.
 
-A few resources to get you started if this is your first Flutter project:
+### Công nghệ sử dụng 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Giao diện : Flutter
+- Database : FirebaseGoogle,
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Giới thiệu ứng dụng
+
