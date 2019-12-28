@@ -81,7 +81,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           isMyDay: false,
                           category: widget.category,
                           createDate: DateTime.now(),
-                          dueDate: dateTime);
+                          dueDate: (widget.category.index == 2 && dateTime == null) ? DateTime.now() : dateTime);
                           //dueDate: DateTime.now().add(Duration(days: 2)));
                       NoteBloc().insertNote(note);
                       Navigator.pop(context);

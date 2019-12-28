@@ -70,6 +70,7 @@ class Repository {
   Future getNumOfImportanceNotes(String username) => noteProvider.getNumOfImportanceNotes(username);
 
   Future insertNote(NoteModel note) async {
+    await note.category.name == "Importance" ? note.isImportance = true : note.isImportance = false;
     await noteProvider.insertNote(note);
     updateNumOfNotes(note);
   }

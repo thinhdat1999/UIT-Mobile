@@ -10,5 +10,7 @@ class SmartList {
     CategoryModel(icon: 'wb_sunny', color: Colors.amberAccent, name: 'My Day', numOfNotes: 0, isSmartList: true, index: 0),
     CategoryModel(icon: 'star_border', color: Colors.red, name: 'Importance', numOfNotes: 0, isSmartList: true, index: 1),
     CategoryModel(icon: 'date_range', color: Colors.greenAccent, name: 'Plan', numOfNotes: 0, isSmartList: true, index: 2),
+    //CategoryModel(icon: 'Book', color: Colors.greenAccent, name: 'Tasks', numOfNotes: 0, isSmartList: true, index: 3),
+
   ];
 }

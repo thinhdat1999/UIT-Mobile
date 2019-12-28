@@ -90,21 +90,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               CircleAvatar(
+                //backgroundImage: AssetImage('assets/person.png'),
                 //backgroundColor: Colors.white,
-                maxRadius: 18,
+                maxRadius: 16,
               ),
               SizedBox(width: 3),
               Column(
                 children: <Widget>[
                   SizedBox(height: 15),
                   Text(UserModel().username, style: TextStyle(
-                      fontSize: 16),),
+                      fontSize: 13),),
                 ],
               ),
               Spacer(),
-              FlatButton.icon(
-                icon: Icon(Icons.person),
-                label: Text('Log out'),
+              IconButton(
+                icon: Icon(Icons.exit_to_app),
                 onPressed: _signOut,
               )
             ],

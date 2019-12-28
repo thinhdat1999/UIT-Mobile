@@ -121,7 +121,7 @@ class LoginScreen extends StatelessWidget {
     try{
       // ignore: unnecessary_statements
       await _auth.signInWithEmailAndPassword(email: data.name, password: data.password);
-      user.username = data.name.trim();
+      user.username = data.name;
 
     } on Exception{
       return "Username or password incorrect";
@@ -150,10 +150,9 @@ class LoginScreen extends StatelessWidget {
     } else {
       userBloc.insertUser(user);
       try {
-        FirebaseUser fbUser = (await _auth.createUserWithEmailAndPassword(
-            email: data.name, password: data.password))
-            .user;
-        await fbUser.sendEmailVerification();
+        await _auth.createUserWithEmailAndPassword(
+            email: data.name, password: data.password);
+        //fbUser.sendEmailVerification();z
       } on PlatformException {
         return "Lỗi đăng nhập!";
       }
@@ -161,15 +160,15 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String> _recoverPassword(String name) async {
-    user.username = name;
+    /*user.username = name;
     await userBloc.getUserByUsername(name);
     await _auth.sendPasswordResetEmail(email: name);
-    return Future.delayed(Duration(milliseconds: 500)).then((_) {
+    return Future.delayed(Duration(milliseconds: 1)).then((_) {
       if (name != user.username) {
         return 'Tên đăng nhập không tồn tại';
       }
       return null;
-    });
+    });*/
   }
 
   @override

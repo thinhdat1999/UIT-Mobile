@@ -165,7 +165,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
             ),
           ]
       ),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton: widget.category == null ? null : widget.category.index == 0 ? null :  new FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: addNote,
       )
