@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dt_todo/blocs/category_blocs.dart';
 import 'package:dt_todo/blocs/note_blocs.dart';
+import 'package:dt_todo/blocs/user_blocs.dart';
 import 'package:dt_todo/helper/IconHelper.dart';
 import 'package:dt_todo/models/category_model.dart';
 import 'package:dt_todo/models/note_model.dart';
@@ -19,7 +20,7 @@ class NoteListScreen extends StatefulWidget {
   const NoteListScreen({this.category});
 
   @override
-  _NoteListScreenState createState() => _NoteListScreenState();
+  _NoteListScreenState createState() => _NoteListScreenState(category);
 }
 const kExpandedHeight = 100.0;
 
@@ -27,6 +28,11 @@ const kExpandedHeight = 100.0;
 class _NoteListScreenState extends State<NoteListScreen> {
   static List noteList;
   ScrollController _scrollController;
+  CategoryModel categoryModel;
+
+  _NoteListScreenState(CategoryModel category){
+    this.categoryModel = category;
+  }
 /*  Future future;
 
   Future loadNoteList() async {
@@ -53,6 +59,10 @@ class _NoteListScreenState extends State<NoteListScreen> {
         controller: _scrollController,
           slivers: <Widget>[
             SliverAppBar(
+              shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+              backgroundColor: categoryModel.index == 0 ? Colors.yellow[200] : categoryModel.index == 1 ? Colors.red[200] : categoryModel.index == 2 ? Colors.green[200] : Colors.blue[200],
               pinned: true,
               snap: false,
               floating: false,
