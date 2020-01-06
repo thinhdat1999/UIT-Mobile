@@ -8,6 +8,7 @@ import 'package:dt_todo/ui/custom/CategoryBox.dart';
 import 'package:dt_todo/ui/custom/EditCategory.dart';
 import 'package:dt_todo/ui/loginScreen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:async/async.dart';
@@ -77,17 +78,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         //shadow
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30)
+             )
+        ),
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
             child: Container(
-                color: Colors.grey[200], height: 4.0
+                color: Colors.blue[50], height: 4.0
             ),
             preferredSize: Size.fromHeight(4.0)
         ),
-        title: Container(
-          padding: EdgeInsets.all(2),
+        title: Center(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CircleAvatar(
                 //backgroundImage: AssetImage('assets/person.png'),
@@ -96,10 +101,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
               SizedBox(width: 3),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 15),
                   Text(UserModel().username, style: TextStyle(
-                      fontSize: 13),),
+                      fontSize: 18),),
                 ],
               ),
               Spacer(),
@@ -112,6 +120,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
       ),
       body: Container(
+        color: Colors.grey[50],
           child: StreamBuilder(
               stream: CategoryBloc().fetchCategoriesAsStream(
                   UserModel().username),
@@ -131,7 +140,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       map((doc) => CategoryModel.fromMap(doc.data, doc.documentID)).toList();
 
                       return Container(
-                          color: Colors.grey[200],
+                          color: Colors.grey[50],
                           child: ListCategories(listCategories: listCategories));
                     }
                 }
@@ -159,7 +168,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 index: _newIndex));*/
           },
           child: Container(
-            color: Colors.grey[200],
+            decoration: new BoxDecoration(
+              color: Colors.blue[100],
+                border: Border.all(
+                width: 010.0,
+                  color: Colors.white,
+            )
+            ),
             padding: EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

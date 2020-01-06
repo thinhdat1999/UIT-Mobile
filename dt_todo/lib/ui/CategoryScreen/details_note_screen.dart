@@ -28,8 +28,8 @@ class _DetailsNoteScreen extends State<DetailsNoteScreen> {
     textEditingController = TextEditingController(text: widget.note.title);
     descriptionController = TextEditingController(text: widget.note.description);
     dateTime = widget.note.dueDate;
-    Date = " Pick due date";
-    Time = "";
+    Date = widget.note.dueDate != null ? widget.note.dueDate.toIso8601String().substring(0, 10) : " Pick due date";
+    Time = widget.note.dueDate != null ? widget.note.dueDate.toIso8601String().substring(11, 16) : "";
     super.initState();
   }
 
@@ -44,6 +44,12 @@ class _DetailsNoteScreen extends State<DetailsNoteScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.note.category.name),
+        backgroundColor: widget.note.category.index == 0 ? Colors.yellow : widget.note.category.index == 1 ? Colors.red[100] : widget.note.category.index == 2 ? Colors.green[100] : Colors.lightGreen[100],
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(30)
+            )
+        ),
         elevation: 5.0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),

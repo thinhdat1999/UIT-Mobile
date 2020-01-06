@@ -13,7 +13,7 @@ class ListCategories extends StatelessWidget {
       itemCount: listCategories.length,
       itemBuilder: (context, index) {
         return Container(
-          color: Colors.grey[200],
+          color: Colors.blue[50],
           child: Column(
             children: <Widget>[
               CategoryBox(category: listCategories[index]),

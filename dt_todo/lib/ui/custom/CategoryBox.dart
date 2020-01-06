@@ -17,24 +17,27 @@ class CategoryBox extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         //ToDo: thêm 3 screen cho 3 smart list.
+        print(category.index);
         Navigator.push(context, MaterialPageRoute(builder: (context) => NoteListScreen(category: category)));
       },
       child: Column(
         children: <Widget>[
           Container(
-            color: Colors.grey[200],
+            decoration: new BoxDecoration(
+                color: Colors.blue[200],
+            ),
             padding: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(10),
                     child: Icon(IconHelper().getIconByName(category.icon), color: category.color),
                 ),
                 SizedBox(width: 18),
-                Text(category.name),
+                Text(category.name, style: TextStyle(color: category.index == 0 ? Colors.yellow : category.index == 1 ? Colors.red : category.index == 2 ? Colors.green : Colors.white,fontSize: 20)),
                 Spacer(),
-                category.numOfNotes > 0 ? Text(category.numOfNotes.toString()) : Container(),
+                category.numOfNotes > 0 ? Text(category.numOfNotes.toString(),style: TextStyle(fontStyle: FontStyle.italic)) : Container(),
               ],
             ),
           ),

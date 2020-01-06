@@ -133,7 +133,7 @@ packages:
       name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   flushbar:
     dependency: transitive
     description:
