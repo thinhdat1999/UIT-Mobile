@@ -44,11 +44,14 @@ class Repository {
   Future deleteCategory(String id) async {
     final db = Firestore.instance;
     WriteBatch batch = db.batch();
-    List noteList = await getNotesByCategory(id);
+    List noteList = await noteProvider.getNotesByCategory(id);
     noteList.forEach((note) {
+      print(note.id);
       DocumentReference ref = db.collection('notes').document(note.id);
+      updateNumOfNotes(note);
       batch.delete(ref);
     });
+
     await batch.commit();
     categoryProvider.deleteCategory(id);
   }
@@ -86,23 +89,24 @@ class Repository {
   }
 
   Future updateNumOfNotes(NoteModel note) async {
-    if(note.isMyDay) noteProvider.getNumOfMyDayNotes(UserModel().username).then((value) {
+    noteProvider.getNumOfMyDayNotes(UserModel().username).then((value) {
       categoryProvider.smartLists.elementAt(0).numOfNotes = value;
       categoryProvider.updateCategory(categoryProvider.smartLists.elementAt(0));
     });
 
-    if(note.isImportance) noteProvider.getNumOfImportanceNotes(UserModel().username).then((value) {
+    noteProvider.getNumOfImportanceNotes(UserModel().username).then((value) {
       categoryProvider.smartLists.elementAt(1).numOfNotes = value;
       categoryProvider.updateCategory(categoryProvider.smartLists.elementAt(1));
     });
 
 
-    if(note.dueDate != null) noteProvider.getNumOfPlannedNotes(UserModel().username).then((value) {
+    noteProvider.getNumOfPlannedNotes(UserModel().username).then((value) {
       categoryProvider.smartLists.elementAt(2).numOfNotes = value;
       categoryProvider.updateCategory(categoryProvider.smartLists.elementAt(2));
     });
 
-    noteProvider.getNumOfNotes(note.category.id).then((value) {
+
+    if(note.category != null) noteProvider.getNumOfNotes(note.category.id).then((value) {
       note.category.numOfNotes = value;
       categoryProvider.updateCategory(note.category);
     });

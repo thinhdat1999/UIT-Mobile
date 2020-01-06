@@ -30,8 +30,7 @@ class _CustomNoteBoxState extends State<CustomNoteBox> {
     // TODO: implement build
     return GestureDetector(
       onTap: _goToDetail,
-      child: Container(
-        color: Colors.grey[100],
+      child: Card(
         child: Row(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its

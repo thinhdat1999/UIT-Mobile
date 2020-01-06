@@ -124,12 +124,12 @@ class __DialogState extends State<EditDialog> {
                   ),
                 ),
                 isClickIcon ? AnimatedContainer(
-                    height: 100.0,
+                    height: 200.0,
                     color: Colors.grey,
                     duration: Duration(seconds: 2),
                     curve: Curves.fastOutSlowIn,
                     child: GridView.count(
-                        crossAxisCount: 6,
+                        crossAxisCount: 5,
                         children: List.generate(30, (index){
                           return InkResponse(
                             child: ChoiceCard(choice: choices[index],),

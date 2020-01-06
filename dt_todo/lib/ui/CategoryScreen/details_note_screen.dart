@@ -143,7 +143,11 @@ class _DetailsNoteScreen extends State<DetailsNoteScreen> {
               ),
 
               Container(alignment: Alignment.centerLeft,
-                  child:  TextField(
+                  child:  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Add your description here",
+                      hintStyle: TextStyle(color: Colors.grey)
+                    ),
                     controller: descriptionController,
                     textInputAction: TextInputAction.done,
                     maxLines: 4,

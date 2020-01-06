@@ -20,7 +20,7 @@ class NoteListScreen extends StatefulWidget {
   const NoteListScreen({this.category});
 
   @override
-  _NoteListScreenState createState() => _NoteListScreenState(category);
+  _NoteListScreenState createState() => _NoteListScreenState();
 }
 const kExpandedHeight = 100.0;
 
@@ -28,11 +28,7 @@ const kExpandedHeight = 100.0;
 class _NoteListScreenState extends State<NoteListScreen> {
   static List noteList;
   ScrollController _scrollController;
-  CategoryModel categoryModel;
 
-  _NoteListScreenState(CategoryModel category){
-    this.categoryModel = category;
-  }
 /*  Future future;
 
   Future loadNoteList() async {
@@ -62,7 +58,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
               shape: ContinuousRectangleBorder(
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
-              backgroundColor: categoryModel.index == 0 ? Colors.yellow[200] : categoryModel.index == 1 ? Colors.red[200] : categoryModel.index == 2 ? Colors.green[200] : Colors.blue[200],
+              backgroundColor: widget.category == null ? Colors.lightBlueAccent : widget.category.index == 0 ? Colors.yellow[200] : widget.category.index == 1 ? Colors.red[200] : widget.category.index == 2 ? Colors.green[200] : Colors.blue[200],
               pinned: true,
               snap: false,
               floating: false,
